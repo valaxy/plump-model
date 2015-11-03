@@ -1,0 +1,6 @@
+- attribute
+- computed attribute
+- event
+- relation
+- aggregate
+- validation
