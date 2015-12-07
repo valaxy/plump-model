@@ -5,3 +5,4 @@
 - aggregate 聚合体
 - validation 属性校验
 - persistence 持久化
+- ORM
