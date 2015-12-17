@@ -2,6 +2,8 @@
 - computed attribute 计算属性
 - event 事件
 - relation 关联
+  - Collection形式
+  - Map形式
 - aggregate 聚合体
 - validation 属性校验
 - persistence 持久化
