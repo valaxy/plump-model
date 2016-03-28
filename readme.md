@@ -1,11 +1,12 @@
 - attribute 属性, 使用get/set选择器
-- computed attribute 计算属性, 使用get选择器
+  - 默认值, 私有实例变量赋值
+  - computed attribute 计算属性, 使用get选择器
+  - validation 属性校验, 在set选择器中校验, 有问题则抛出异常
 - event 事件: 状态的改变会抛出事件, 状态不改变不会抛出事件
 - ID唯一性检测
 - relation 关联
   - Collection形式
   - Map形式
 - aggregate 聚合体
-- validation 属性校验
 - persistence 持久化
 - ORM
