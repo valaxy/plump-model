@@ -14,8 +14,9 @@ export default class Collection<Model> {
         this._reverseKey && (model[this._reverseKey] = null)
     }
 
-    constructor({reverseKey}) {
-        this._reverseKey = reverseKey
+    constructor(models:Model[] = [], options:any = {}) {
+        this._reverseKey = options.reverseKey
+        this._list       = models
     }
 
     add(model:Model) {

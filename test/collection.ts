@@ -11,8 +11,18 @@ class MyModel {
     }
 }
 
+
+QUnit.test('constructor', assert => {
+    let col = new Collection([
+        new MyModel({id: 1}),
+        new MyModel({id: 2})
+    ])
+    assert.equal(col.length, 2)
+})
+
+
 QUnit.test('add()/includes()/insert()/length/at()', assert => {
-    let col   = new Collection({reverseKey: 'col'})
+    let col   = new Collection([], {reverseKey: 'col'})
     let model = new MyModel({id: 1})
     assert.ok(!model.col)
     assert.ok(!col.includes(model))
@@ -32,7 +42,7 @@ QUnit.test('add()/includes()/insert()/length/at()', assert => {
 
 
 QUnit.test('remove()/removeAt()', assert => {
-    let col    = new Collection({reverseKey: 'col'})
+    let col    = new Collection([], {reverseKey: 'col'})
     let model  = new MyModel({id: 1})
     let model2 = new MyModel({id: 2})
     col.add(model)
