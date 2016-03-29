@@ -26,6 +26,10 @@ export default class Collection<Model> {
 
     at(index) { return this._list[index]}
 
+    concat(...params) {
+        this._list = this._list.concat.call(this._list, ...params)
+    }
+
     every(test:Tester) { return this._list.every(test) }
 
     filter(test:Tester) { return this._list.filter(test) }
@@ -68,5 +72,7 @@ export default class Collection<Model> {
     }
 
     some(test:(Model, number) => boolean) { this._list.some(test) }
+
+    toArray() { return [].concat(this._list) }
 }
 

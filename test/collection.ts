@@ -56,3 +56,13 @@ QUnit.test('remove()/removeAt()', assert => {
     assert.equal(col.length, 0)
     assert.ok(!model.col)
 })
+
+
+QUnit.test('concat()', assert => {
+    let col    = new Collection()
+    let model1 = new MyModel({id: 1})
+    let model2 = new MyModel({id: 1})
+    let model3 = new MyModel({id: 1})
+    col.concat(model1, [model2, model3])
+    assert.deepEqual(col.toArray(), [model1, model2, model3])
+})
