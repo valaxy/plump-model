@@ -66,3 +66,10 @@ QUnit.test('concat()', assert => {
     col.concat(model1, [model2, model3])
     assert.deepEqual(col.toArray(), [model1, model2, model3])
 })
+
+QUnit.test('clear()', assert => {
+    let model = new MyModel({id: 1})
+    let col   = new Collection([model])
+    col.clear()
+    assert.equal(col.length, 0)
+})

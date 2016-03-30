@@ -26,6 +26,8 @@ export default class Collection<Model> {
 
     at(index) { return this._list[index]}
 
+    clear() { this._list = [] }
+
     concat(...params) {
         this._list = this._list.concat.call(this._list, ...params)
     }

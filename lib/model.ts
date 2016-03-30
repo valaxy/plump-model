@@ -8,4 +8,18 @@ export default class Model {
             this[key] = props[key]
         }
     }
+
+    clone() {
+        let Class:any = this.constructor
+        let model     = new Class
+        for (var key in this) {
+            model[key] = this[key]
+        }
+        return model
+    }
+
+    validate(props:{[name:string]: any}) {
+        let copy = this.clone()
+        copy.set(props)
+    }
 }
