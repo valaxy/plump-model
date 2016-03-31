@@ -2,21 +2,28 @@ interface Tester {
     (Model, number): boolean
 }
 
+interface Option {
+    host?: any
+    reverseKey?: string
+}
+
 export default class Collection<Model> {
     private _list       = []
     private _reverseKey = null
+    private _host       = null
 
     private _addMaintain(model:Model) {
-        this._reverseKey && (model[this._reverseKey] = this)
+        this._reverseKey && (model[this._reverseKey] = this._host)
     }
 
     private _removeMaintain(model:Model) {
         this._reverseKey && (model[this._reverseKey] = null)
     }
 
-    constructor(models:Model[] = [], options:any = {}) {
+    constructor(models:Model[] = [], options:Option = {}) {
         this._reverseKey = options.reverseKey
-        this._list       = models
+        this._host       = options.host
+        this.concat(models)
     }
 
     add(model:Model) {
@@ -26,10 +33,19 @@ export default class Collection<Model> {
 
     at(index) { return this._list[index]}
 
-    clear() { this._list = [] }
+    clear() { this._list.forEach((model, index) => this.removeAt(index)) }
+
+    replace(models:Model[]) {
+        this.clear()
+        this.concat(models)
+    }
 
     concat(...params) {
-        this._list = this._list.concat.call(this._list, ...params)
+        let concatList = this._list.concat(...params)
+        for (let i = this._list.length; i < concatList.length; i++) {
+            this._addMaintain(concatList[i])
+        }
+        this._list = concatList
     }
 
     every(test:Tester) { return this._list.every(test) }
@@ -53,6 +69,8 @@ export default class Collection<Model> {
         this._list.splice(index, 0, model)
         this._addMaintain(model)
     }
+
+    isEmpty() { return this.length == 0 }
 
     lastIndexOf(model:Model) { return this._list.lastIndexOf(model) }
 
