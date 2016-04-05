@@ -26,6 +26,9 @@ export default class Collection<Model> {
         this.concat(models)
     }
 
+    //-----------------------------------------------------------------------------------------------------
+    // ADD
+    //-----------------------------------------------------------------------------------------------------
     add(model:Model) {
         this._list.push(model)
         this._addMaintain(model)
@@ -46,6 +49,19 @@ export default class Collection<Model> {
             this._addMaintain(concatList[i])
         }
         this._list = concatList
+    }
+
+    //-----------------------------------------------------------------------------------------------------
+    // UPDATE
+    //-----------------------------------------------------------------------------------------------------
+    move(fromIndex:number, toIndex:number) {
+        if (fromIndex < 0 || fromIndex >= this.length) throw new Error('fromIndex out of range')
+        if (toIndex < 0 || toIndex >= this.length) throw new Error('toIndex out of range')
+        if (fromIndex == toIndex) throw new Error('fromIndex should not equal with toIndex')
+
+        let model = this.at(fromIndex)
+        this.removeAt(fromIndex)
+        this.insert(toIndex, model)
     }
 
     every(test:Tester) { return this._list.every(test) }

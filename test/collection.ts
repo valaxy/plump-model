@@ -111,3 +111,19 @@ QUnit.test('replace()', assert => {
     assert.equal(model2.host, 123)
     assert.equal(model1.host, null)
 })
+
+
+QUnit.test('move()', assert => {
+    let m0, m1, m2
+    let list = new Collection([
+        m0 = new MyModel,
+        m1 = new MyModel,
+        m2 = new MyModel
+    ])
+
+    list.move(0, 2)
+    assert.deepEqual(list.toArray(), [m2, m1, m0])
+
+    list.move(1, 0)
+    assert.deepEqual(list.toArray(), [m1, m2, m0])
+})
