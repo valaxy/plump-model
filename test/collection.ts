@@ -1,31 +1,76 @@
-import Collection from '../lib/collection'
+import Collection, {CollectionType} from '../lib/collection'
 import Model from "../lib/model"
 
 QUnit.module('Collection')
 
-class MyModel {
+class Person {
     id
     col
     host
+    items = new Collection([], {reverseKey: 'persons', host: this, type: CollectionType.hasMany})
 
     constructor(options:{id?} = {}) {
         this.id = options.id
     }
 }
 
+class Item {
+    persons = new Collection([], {reverseKey: 'items', host: this, type: CollectionType.hasMany})
+}
+
 
 QUnit.test('constructor', assert => {
     let list = new Collection([
-        new MyModel({id: 1}),
-        new MyModel({id: 2})
+        new Person({id: 1}),
+        new Person({id: 2})
     ])
     assert.equal(list.length, 2)
+})
+
+QUnit.test('many to many: add()/remove()', assert => {
+    let p1 = new Person
+    let p2 = new Person
+    let i1 = new Item
+    let i2 = new Item
+
+    p1.items.add(i1)
+    assert.deepEqual(p1.items.toArray(), [i1])
+    assert.deepEqual(i1.persons.toArray(), [p1])
+
+    p1.items.add(i2)
+    assert.deepEqual(p1.items.toArray(), [i1, i2])
+    assert.deepEqual(i1.persons.toArray(), [p1])
+    assert.deepEqual(i2.persons.toArray(), [p1])
+
+    i1.persons.add(p2)
+    assert.deepEqual(p1.items.toArray(), [i1, i2])
+    assert.deepEqual(p2.items.toArray(), [i1])
+    assert.deepEqual(i1.persons.toArray(), [p1, p2])
+    assert.deepEqual(i2.persons.toArray(), [p1])
+
+    i2.persons.add(p2)
+    assert.deepEqual(p1.items.toArray(), [i1, i2])
+    assert.deepEqual(p2.items.toArray(), [i1, i2])
+    assert.deepEqual(i1.persons.toArray(), [p1, p2])
+    assert.deepEqual(i2.persons.toArray(), [p1, p2])
+
+    p1.items.remove(i2)
+    assert.deepEqual(p1.items.toArray(), [i1])
+    assert.deepEqual(p2.items.toArray(), [i1, i2])
+    assert.deepEqual(i1.persons.toArray(), [p1, p2])
+    assert.deepEqual(i2.persons.toArray(), [p2])
+
+    i1.persons.remove(p1)
+    assert.deepEqual(p1.items.toArray(), [])
+    assert.deepEqual(p2.items.toArray(), [i1, i2])
+    assert.deepEqual(i1.persons.toArray(), [p2])
+    assert.deepEqual(i2.persons.toArray(), [p2])
 })
 
 
 QUnit.test('add()/includes()/insert()/length/at()', assert => {
     let col   = new Collection([], {reverseKey: 'col', host: 123})
-    let model = new MyModel({id: 1})
+    let model = new Person({id: 1})
     assert.ok(!model.col)
     assert.ok(!col.includes(model))
     assert.equal(col.length, 0)
@@ -36,7 +81,7 @@ QUnit.test('add()/includes()/insert()/length/at()', assert => {
     assert.equal(col.length, 1)
     assert.equal(col.at(0), model)
 
-    let model2 = new MyModel({id: 2})
+    let model2 = new Person({id: 2})
     col.insert(0, model2)
     assert.equal(col.at(0), model2)
     assert.equal(col.length, 2)
@@ -45,8 +90,8 @@ QUnit.test('add()/includes()/insert()/length/at()', assert => {
 
 QUnit.test('remove()/removeAt()', assert => {
     let col    = new Collection([], {reverseKey: 'col'})
-    let model  = new MyModel({id: 1})
-    let model2 = new MyModel({id: 2})
+    let model  = new Person({id: 1})
+    let model2 = new Person({id: 2})
     col.add(model)
     col.add(model2)
 
@@ -62,9 +107,9 @@ QUnit.test('remove()/removeAt()', assert => {
 
 QUnit.test('concat()', assert => {
     let col    = new Collection([], {reverseKey: 'host', host: 123})
-    let model1 = new MyModel({id: 1})
-    let model2 = new MyModel({id: 1})
-    let model3 = new MyModel({id: 1})
+    let model1 = new Person({id: 1})
+    let model2 = new Person({id: 1})
+    let model3 = new Person({id: 1})
     col.concat(model1, [model2, model3])
     assert.deepEqual(col.toArray(), [model1, model2, model3])
     assert.equal(model1['host'], 123)
@@ -73,7 +118,7 @@ QUnit.test('concat()', assert => {
 })
 
 QUnit.test('clear()', assert => {
-    let model = new MyModel
+    let model = new Person
     let list  = new Collection([model], {reverseKey: 'host', host: 123})
 
     assert.equal(list.length, 1)
@@ -101,8 +146,8 @@ QUnit.test('options: reverseKey', assert => {
 
 QUnit.test('replace()', assert => {
     let list   = new Collection([], {reverseKey: 'host', host: 123})
-    let model1 = new MyModel({id: 1})
-    let model2 = new MyModel({id: 1})
+    let model1 = new Person({id: 1})
+    let model2 = new Person({id: 1})
     list.add(model1)
     assert.equal(model1.host, 123)
 
@@ -116,9 +161,9 @@ QUnit.test('replace()', assert => {
 QUnit.test('move()', assert => {
     let m0, m1, m2
     let list = new Collection([
-        m0 = new MyModel,
-        m1 = new MyModel,
-        m2 = new MyModel
+        m0 = new Person,
+        m1 = new Person,
+        m2 = new Person
     ])
 
     list.move(0, 2)

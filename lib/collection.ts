@@ -4,39 +4,65 @@ interface Tester {
 
 interface Option {
     host?: any
+    type?: CollectionType
+    key?: string
     reverseKey?: string
+}
+
+export enum CollectionType {
+    hasOne,
+    hasMany
 }
 
 export default class Collection<Model> {
     private _list       = []
+    private _key        = null
     private _reverseKey = null
     private _host       = null
+    private _type       = null
 
     private _addMaintain(model:Model) {
-        this._reverseKey && (model[this._reverseKey] = this._host)
+        if (!this._reverseKey) return
+
+        if (this._type == CollectionType.hasOne) {
+            model[this._reverseKey] = this._host
+        } else { // hasMany
+            model[this._reverseKey]._add(this._host)
+        }
     }
 
     private _removeMaintain(model:Model) {
-        this._reverseKey && (model[this._reverseKey] = null)
+        if (!this._reverseKey) return
+
+        if (this._type == CollectionType.hasOne) {
+            model[this._reverseKey] = null
+        } else {
+            model[this._reverseKey]._remove(this._host)
+        }
     }
 
     constructor(models:Model[] = [], options:Option = {}) {
+        this._key        = options.key
         this._reverseKey = options.reverseKey
         this._host       = options.host
+        this._type       = options.type || CollectionType.hasOne
         this.concat(models)
     }
+
 
     //-----------------------------------------------------------------------------------------------------
     // ADD
     //-----------------------------------------------------------------------------------------------------
+
+    // no need maintain
+    _add(model:Model) {
+        this._list.push(model)
+    }
+
     add(model:Model) {
         this._list.push(model)
         this._addMaintain(model)
     }
-
-    at(index) { return this._list[index]}
-
-    clear() { this._list.forEach((model, index) => this.removeAt(index)) }
 
     replace(models:Model[]) {
         this.clear()
@@ -52,8 +78,36 @@ export default class Collection<Model> {
     }
 
     //-----------------------------------------------------------------------------------------------------
-    // UPDATE
+    // REMOVE
     //-----------------------------------------------------------------------------------------------------
+
+    // no need maintain
+    _remove(model:Model) {
+        let index = this.indexOf(model)
+        if (index < 0) throw new Error(`model is not in collection`)
+        this._list.splice(index, 1)
+    }
+
+
+    remove(model:Model) {
+        let index = this.indexOf(model)
+        if (index < 0) throw new Error(`model is not in collection`)
+        this.removeAt(index)
+    }
+
+    removeAt(index:number) {
+        let [model] = this._list.splice(index, 1)
+        this._removeMaintain(model)
+    }
+
+    clear() { this._list.forEach((model, index) => this.removeAt(index)) }
+
+
+    //-----------------------------------------------------------------------------------------------------
+    // OTHER
+    //-----------------------------------------------------------------------------------------------------
+    at(index) { return this._list[index]}
+
     move(fromIndex:number, toIndex:number) {
         if (fromIndex < 0 || fromIndex >= this.length) throw new Error('fromIndex out of range')
         if (toIndex < 0 || toIndex >= this.length) throw new Error('toIndex out of range')
@@ -96,19 +150,9 @@ export default class Collection<Model> {
 
     reduce(test) { return this._list.map(test)}
 
-    remove(model:Model) {
-        let index = this.indexOf(model)
-        if (index < 0) throw new Error(`model is not in collection`)
-        this.removeAt(index)
-    }
 
-    removeAt(index:number) {
-        let [model] = this._list.splice(index, 1)
-        this._removeMaintain(model)
-    }
 
     some(test:(Model, number) => boolean) { this._list.some(test) }
 
     toArray() { return [].concat(this._list) }
 }
-
