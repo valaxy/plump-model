@@ -155,4 +155,6 @@ export default class Collection<Model> {
     some(test:(Model, number) => boolean) { this._list.some(test) }
 
     toArray() { return [].concat(this._list) }
+
+    toJSON() { return this._list.map(model => model.toJSON()) }
 }

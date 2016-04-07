@@ -2,9 +2,12 @@ import Model from "../lib/model"
 QUnit.module('Model')
 
 class MyModel extends Model {
-    _p
+    private _p
+    private _wrong = 'wrongValue'
 
     get p() { return this._p }
+
+    get wrong() { return this._wrong }
 
     set wrong(value) { throw new Error(value) }
 
@@ -41,5 +44,45 @@ QUnit.test('validate()', assert => {
         model.validate({wrong: '123'})
     } catch (e) {
         assert.equal(e.message, '123')
+    }
+    assert.equal(model.wrong, 'wrongValue')
+})
+
+
+
+QUnit.test('toJSON()', assert => {
+    // standard
+    class MyModel1 extends Model {
+        private _p2 = 456
+
+        get p1() { return 123 }
+
+        get p2() { return this._p2 }
+    }
+
+    assert.deepEqual(new MyModel1().toJSON(), {
+        p1: 123,
+        p2: 456
+    })
+
+
+    // extend
+    class MyModel2 extends MyModel1 {
+        private _p3 = 'xyz'
+
+        get p2() { return 555 } // override
+
+        get p3() { return this._p3 }
+    }
+    assert.deepEqual(new MyModel2().toJSON(), {
+        p1: 123,
+        p2: 555,
+        p3: 'xyz'
+    })
+
+
+    // has collection
+    class MyModel3 extends MyModel2 {
+
     }
 })
