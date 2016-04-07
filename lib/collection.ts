@@ -100,7 +100,11 @@ export default class Collection<Model> {
         this._removeMaintain(model)
     }
 
-    clear() { this._list.forEach((model, index) => this.removeAt(index)) }
+    clear() {
+        for (let i = this._list.length - 1; i >= 0; i--) {
+            this.removeAt(i)
+        }
+    }
 
 
     //-----------------------------------------------------------------------------------------------------

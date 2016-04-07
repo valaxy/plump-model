@@ -119,9 +119,13 @@ QUnit.test('concat()', assert => {
 
 QUnit.test('clear()', assert => {
     let model = new Person
-    let list  = new Collection([model], {reverseKey: 'host', host: 123})
+    let list  = new Collection([
+        model,
+        new Person,
+        new Person
+    ], {reverseKey: 'host', host: 123})
 
-    assert.equal(list.length, 1)
+    assert.equal(list.length, 3)
     assert.equal(model.host, 123)
 
     list.clear()
