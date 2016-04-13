@@ -86,3 +86,32 @@ QUnit.test('toJSON()', assert => {
 
     }
 })
+
+
+QUnit.test('merge()', assert => {
+    class MyModel extends Model {
+        private _p1
+        private _p2
+
+        get p1() { return this._p1 }
+
+        set p1(value) { this._p1 = value }
+
+        get p2() {return this._p2}
+
+        set p2(value) { this._p2 = value }
+
+        constructor(props) {
+            super()
+            super.set(props)
+        }
+    }
+
+    let m1 = new MyModel({p1: '111', p2: 'aaa'})
+    let m2 = new MyModel({p1: '222', p2: 'ccc'})
+    m1.merge(m2)
+    assert.deepEqual(m1.toJSON(), {
+        p1: '222',
+        p2: 'ccc'
+    })
+})

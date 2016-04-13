@@ -15,7 +15,7 @@ export default class Model {
     }
 
     set(props:{[name:string]: any}) {
-        for (var key in props) {
+        for (let key in props) {
             this[key] = props[key]
         }
     }
@@ -23,10 +23,16 @@ export default class Model {
     clone() {
         let Class:any = this.constructor
         let model     = new Class
-        for (var key in this) {
+        for (let key in this) {
             model[key] = this[key]
         }
         return model
+    }
+
+    merge(model) {
+        for (let key in model) {
+            this[key] = model[key]
+        }
     }
 
     validate(props:{[name:string]: any}) {

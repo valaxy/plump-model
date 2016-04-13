@@ -27,7 +27,7 @@ QUnit.test('constructor', assert => {
     assert.equal(list.length, 2)
 })
 
-QUnit.test('many to many: add()/remove()', assert => {
+QUnit.test('many to many: add()/remove()/clear()', assert => {
     let p1 = new Person
     let p2 = new Person
     let i1 = new Item
@@ -65,6 +65,12 @@ QUnit.test('many to many: add()/remove()', assert => {
     assert.deepEqual(p2.items.toArray(), [i1, i2])
     assert.deepEqual(i1.persons.toArray(), [p2])
     assert.deepEqual(i2.persons.toArray(), [p2])
+
+    p2.items.clear()
+    assert.deepEqual(p1.items.toArray(), [])
+    assert.deepEqual(p2.items.toArray(), [])
+    assert.deepEqual(i1.persons.toArray(), [])
+    assert.deepEqual(i2.persons.toArray(), [])
 })
 
 
