@@ -17,20 +17,29 @@ class MyModel extends Model {
 }
 
 QUnit.test('constructor', assert => {
-    let model:any = new MyModel({
+    class SubModel extends Model {
+        id
+        _name
+
+        get name() { return this._name }
+
+        set name(value) { this._name = value }
+    }
+
+    let model = new SubModel({
         id  : 1,
         name: 'xyz'
     })
 
-    assert.equal(model.id, 1)
-    assert.equal(model.name, 'xyz')
+    assert.equal(model.id, 1, 'field is ok')
+    assert.equal(model.name, 'xyz', 'get/set is ok')
 })
 
 
 QUnit.test('clone()', assert => {
-    let m1 = new MyModel
-    m1._p  = 123
-    let m2 = m1.clone()
+    let m1   = new MyModel
+    m1['_p'] = 123
+    let m2   = m1.clone()
 
     assert.equal(m2.p, 123)
     assert.equal(m2.constructor, MyModel)
