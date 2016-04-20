@@ -1,6 +1,6 @@
 {
   "name": "plump",
-  "version": "0.1.3",
+  "version": "0.1.4-dev",
   "description": "domain model framework",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,8 @@
     "cjs": "github:valaxy/cjs#56d3496c933731ff3ba37578ace17d23bdf7fb8d",
     "qunitjs": "^1.23.0",
     "requirejs": "^2.2.0"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
   }
 }
