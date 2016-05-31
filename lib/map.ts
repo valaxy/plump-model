@@ -34,16 +34,35 @@ export default class Map<Model> {
 
     mapObject(mapFunc) { return _.mapObject(this._map, mapFunc) } // todo,
 
-    pairs() { return _.pairs(this._map) }
-
-
-    findKey(predicate) { return _.findKey(this._map, predicate) }
-
-    clone() {return new Map(this._map) }
-
-
-    filter(predicate) {
-
+    pairs() {
+        return _.pairs(this._map)
     }
 
+    findKey(predicate:(value, key:string) => boolean) {
+        return _.findKey(this._map, predicate)
+    }
+
+    findValue(predicate:(value, key:string) => boolean) {
+        let key = _.findKey(this._map, predicate)
+        if (key == undefined) {
+            return this._map[key]
+        } else {
+            return undefined
+        }
+    }
+
+    clone() {
+        return new Map(this._map)
+    }
+
+    filter(predicate:(value, key:string) => boolean) {
+        _.pairs(this._map).forEach(([key, value]) => {
+            if (!predicate(value, key)) delete this._map[key]
+        })
+        return this
+    }
+
+    toJSON() {
+        return _.clone(this._map)
+    }
 }

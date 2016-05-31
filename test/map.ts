@@ -98,15 +98,38 @@ QUnit.test('pairs()', assert => {
 })
 
 
-QUnit.test('findKey()', assert => {
+QUnit.test('findKey()/findValue()', assert => {
     let m = new Map({
         a: 1,
         0: 5,
+        1: 'a',
         2: 3
     })
 
-    assert.equal(m.findKey(key => /\d+/.test(key)), '0')
+    assert.equal(m.findKey((value, key) => /\d+/.test(key) && /[a-z]/.test(value)), '1')
+    assert.equal(m.findValue((value, key) => value == 3 && key == '2'), 3)
 })
 
 
+
+QUnit.test('filter()', assert => {
+    let m = new Map({
+        0: 0,
+        1: 1,
+        a: 'a',
+        b: 'b'
+    })
+
+    m.filter((value, key) => {
+        if (key.match(/[a-z]+/)) return true
+        if (value == 0) return true
+        return false
+    })
+
+    assert.deepEqual(m.toJSON(), {
+        0: 0,
+        a: 'a',
+        b: 'b'
+    })
+})
 

@@ -1,6 +1,6 @@
 {
   "name": "plump",
-  "version": "0.1.4-dev",
+  "version": "0.1.0-dev",
   "description": "domain model framework",
   "main": "index.js",
   "scripts": {
