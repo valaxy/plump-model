@@ -1,4 +1,5 @@
 import Map from '../lib/map'
+import Model from '../lib/model'
 
 QUnit.module('Map')
 
@@ -28,12 +29,12 @@ QUnit.test('get()', assert => {
 })
 
 
-QUnit.test('set()/remove()', assert => {
+QUnit.test('setMany()/remove()', assert => {
     let m = new Map()
-    m.set({'abc': 123})
+    m.setMany({'abc': 123})
     assert.equal(m.get('abc'), 123)
 
-    m.set({'abc': 456, 'b': 111})
+    m.setMany({'abc': 456, 'b': 111})
     assert.equal(m.get('abc'), 456)
     assert.equal(m.get('b'), 111)
 
@@ -49,7 +50,7 @@ QUnit.test('has()', assert => {
     assert.ok(m.has('a'))
     assert.ok(!m.has('b'))
 
-    m.set({'b': 123})
+    m.setMany({'b': 123})
     assert.ok(m.has('b'))
 })
 
@@ -57,7 +58,7 @@ QUnit.test('keys()', assert => {
     let m = new Map
     assert.deepEqual(m.keys(), [])
 
-    m.set({
+    m.setMany({
         a: 1,
         b: 2
     })
@@ -69,7 +70,7 @@ QUnit.test('values()', assert => {
     let m = new Map
     assert.deepEqual(m.values(), [])
 
-    m.set({a: 1, b: 2})
+    m.setMany({a: 1, b: 2})
     assert.deepEqual(m.values(), [1, 2])
 })
 
@@ -133,3 +134,33 @@ QUnit.test('filter()', assert => {
     })
 })
 
+
+QUnit.test('merge()', assert => {
+    class MyModel extends Model {
+        a = 1
+        b = 2
+
+        constructor(props) {
+            super(props)
+            super.set(props)
+        }
+    }
+
+    let a = new MyModel()
+    let m = new Map({xx: a})
+    assert.deepEqual(m.get('xx').a, 1)
+    assert.deepEqual(m.get('xx').b, 2)
+
+    let b = new MyModel({a: 3})
+    assert.deepEqual(b.a, 3)
+    assert.deepEqual(b.b, 2)
+
+    m.merge('xx', b)
+    assert.deepEqual(m.get('xx').a, 3)
+    assert.deepEqual(m.get('xx').b, 2)
+
+    // not has
+    m.merge('yy', new MyModel({a: 111, b: 222}))
+    assert.deepEqual(m.get('yy').a, 111)
+    assert.deepEqual(m.get('yy').b, 222)
+})

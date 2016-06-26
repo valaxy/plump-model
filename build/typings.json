@@ -1,0 +1,8 @@
+{
+  "globalDependencies": {
+    "node": "registry:dt/node#6.0.0+20160621231320",
+    "qunit": "registry:dt/qunit#1.16.0+20160514172809",
+    "require": "registry:dt/require#2.1.20+20160316155526",
+    "underscore": "registry:dt/underscore#1.7.0+20160622050840"
+  }
+}
