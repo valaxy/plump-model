@@ -18,7 +18,7 @@
   "homepage": "https://github.com/valaxy/plump#readme",
   "devDependencies": {
     "cjs": "github:valaxy/cjs#56d3496c933731ff3ba37578ace17d23bdf7fb8d",
-    "qunitjs": "^1.23.0",
+    "qunitjs": "^2.0.0",
     "requirejs": "^2.2.0",
     "structprint": "github:valaxy/structprint#299652f66d2cd816b0ab3ea01cdc4e2ee0401586"
   },
