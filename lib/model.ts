@@ -1,3 +1,5 @@
+import Subject from 'structprint/lib/event/Subject'
+
 let getPrototypes = function (model) {
     let proto      = model.constructor.prototype
     let prototypes = []
@@ -52,5 +54,19 @@ export default class Model {
             })
         })
         return json
+    }
+
+
+    //------------------------------------------------------------------------------------------------
+    // Event
+    //------------------------------------------------------------------------------------------------
+    private static _hub:Subject
+
+    trigger(event) {
+        Model._hub.trigger(event)
+    }
+
+    static setupEventHub(hub:Subject) {
+        Model._hub = hub
     }
 }

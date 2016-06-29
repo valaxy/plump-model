@@ -1,4 +1,7 @@
 import Model from "../lib/model"
+import Subject from 'structprint/lib/event/Subject'
+import Observer from 'structprint/lib/event/Observer'
+
 QUnit.module('Model')
 
 class MyModel extends Model {
@@ -123,4 +126,30 @@ QUnit.test('merge()', assert => {
         p1: '222',
         p2: 'ccc'
     })
+})
+
+
+QUnit.test('trigger()', assert => {
+    let done = assert.async()
+
+    class TestModel extends Model {
+        constructor(props) {
+            super()
+            super.set(props)
+        }
+    }
+
+
+    let hub = new Subject()
+    let obs = new Observer()
+    let m   = new TestModel({data: 123})
+
+    Model.setupEventHub(hub)
+
+    obs.listenTo(hub, {type: 'test'}, ({data}) => {
+        assert.equal(data, 123)
+        done()
+    })
+
+    m.trigger({type: 'test', data: m.data})
 })
