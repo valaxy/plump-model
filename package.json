@@ -4,14 +4,14 @@
   "description": "domain model framework",
   "main": "index.js",
   "scripts": {
-    "postinstall": "tsc"
+    "postinstall": "cd build && typings install && tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/valaxy/plump.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "valaxy",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/valaxy/plump/issues"
   },
@@ -19,8 +19,7 @@
   "devDependencies": {
     "cjs": "github:valaxy/cjs#56d3496c933731ff3ba37578ace17d23bdf7fb8d",
     "qunitjs": "^2.0.0",
-    "requirejs": "^2.2.0",
-    "structprint": "github:valaxy/structprint#fe28195b0f212397741ef47d2bce933e33af82e0"
+    "requirejs": "^2.2.0"
   },
   "dependencies": {
     "underscore": "^1.8.3"
