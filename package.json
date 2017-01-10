@@ -20,7 +20,7 @@
     "cjs": "github:valaxy/cjs#56d3496c933731ff3ba37578ace17d23bdf7fb8d",
     "qunitjs": "^2.0.0",
     "requirejs": "^2.2.0",
-    "structprint": "github:valaxy/structprint#299652f66d2cd816b0ab3ea01cdc4e2ee0401586"
+    "structprint": "github:valaxy/structprint#fe28195b0f212397741ef47d2bce933e33af82e0"
   },
   "dependencies": {
     "underscore": "^1.8.3"
