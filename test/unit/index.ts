@@ -1,3 +1,3 @@
-require('../collection')
-require('../model')
-require('../map')
+//require('../collection')
+//require('../model')
+//require('../map')

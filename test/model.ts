@@ -151,5 +151,5 @@ QUnit.test('trigger()', assert => {
         done()
     })
 
-    m.trigger({type: 'test', data: m.data})
+    m.trigger({type: 'test', data: m['data']})
 })

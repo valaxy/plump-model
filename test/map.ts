@@ -4,12 +4,12 @@ import Model from '../lib/model'
 QUnit.module('Map')
 
 QUnit.test('constructor/get length', assert => {
-    let m = new Map
+    let m = new Map<Model>()
     assert.equal(m.length, 0)
 
-    m = new Map({
-        1: 111,
-        2: 222
+    m = new Map<Model>({
+        '1': new Model,
+        '2': new Model
     })
     assert.equal(m.length, 2)
 })
@@ -17,14 +17,14 @@ QUnit.test('constructor/get length', assert => {
 
 
 QUnit.test('get()', assert => {
-    let m:any = new Map({
-        1: 111,
-        5: 222
+    let m = new Map<Model>({
+        '1': new Model({value: 111}),
+        '5': new Model({value: 222})
     })
 
-    assert.equal(m.get(1), 111)
-    assert.equal(m.get('1'), 111)
-    assert.equal(m.get('5'), 222)
+    assert.equal(m.get('1')['value'], 111)
+    assert.equal(m.get('1')['value'], 111)
+    assert.equal(m.get('5')['value'], 222)
     assert.equal(m.get('xx'), undefined)
 })
 
@@ -140,14 +140,14 @@ QUnit.test('merge()', assert => {
         a = 1
         b = 2
 
-        constructor(props) {
+        constructor(props = {}) {
             super(props)
             super.set(props)
         }
     }
 
     let a = new MyModel()
-    let m = new Map({xx: a})
+    let m = new Map<MyModel>({xx: a})
     assert.deepEqual(m.get('xx').a, 1)
     assert.deepEqual(m.get('xx').b, 2)
 

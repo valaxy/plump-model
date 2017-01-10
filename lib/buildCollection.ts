@@ -1,6 +1,6 @@
 import Collection from './collection'
 
-interface Option {
+export interface Option {
     host: any                        // 宿主对象, 一般在Model里传入this
     type?: CollectionType             // 一对多, 或者多对多
     key?: string

@@ -1,8 +1,8 @@
-interface Tester {
+export interface Tester {
     (Model, number): boolean
 }
 
-interface Option {
+export interface Option {
     host?: any
     type?: CollectionType
     key?: string

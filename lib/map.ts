@@ -1,10 +1,11 @@
 import _ = require('underscore')
+import BaseModel from './model'
 
-interface RawMap<Model> {
+export interface RawMap<Model extends BaseModel> {
     [key: string]:Model
 }
 
-export default class Map<Model> {
+export default class Map<Model extends BaseModel> {
     private _map:RawMap<Model> = {}
 
     constructor(props:RawMap<Model> = {}) {
