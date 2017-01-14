@@ -2,7 +2,7 @@
   "name": "plump",
   "version": "0.1.0-dev",
   "scripts": {
-    "postinstall": "cd build && typings install && tsc",
+    "postinstall": "cd build && typings install && cd ../ && tsc",
     "test": "mocha dest/test/index.js"
   },
   "repository": {
