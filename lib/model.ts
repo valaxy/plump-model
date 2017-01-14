@@ -1,5 +1,3 @@
-//import Subject from 'structprint/lib/event/Subject'
-
 let getPrototypes = function (model) {
     let proto      = model.constructor.prototype
     let prototypes = []
@@ -13,8 +11,11 @@ let getPrototypes = function (model) {
 
 export default class Model {
     constructor(props:{[name:string]: any} = {}) {
+        this.initialize && this.initialize()
         this.set(props)
     }
+
+    initialize() { }
 
     set(props:{[name:string]: any}) {
         for (let key in props) {
@@ -55,18 +56,21 @@ export default class Model {
         })
         return json
     }
-
-
-    ////------------------------------------------------------------------------------------------------
-    //// Event
-    ////------------------------------------------------------------------------------------------------
-    //private static _hub:Subject
-    //
-    //trigger(event) {
-    //    Model._hub.trigger(event)
-    //}
-    //
-    //static setupEventHub(hub:Subject) {
-    //    Model._hub = hub
-    //}
 }
+
+
+
+//import Subject from 'structprint/lib/event/Subject'
+
+////------------------------------------------------------------------------------------------------
+//// Event
+////------------------------------------------------------------------------------------------------
+//private static _hub:Subject
+//
+//trigger(event) {
+//    Model._hub.trigger(event)
+//}
+//
+//static setupEventHub(hub:Subject) {
+//    Model._hub = hub
+//}

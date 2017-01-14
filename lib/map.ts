@@ -1,14 +1,14 @@
 import _ = require('underscore')
 import BaseModel from './model'
 
-export interface RawMap<Model extends BaseModel> {
+export interface ObjectLike<Model extends BaseModel> {
     [key: string]:Model
 }
 
 export default class Map<Model extends BaseModel> {
-    private _map:RawMap<Model> = {}
+    private _map:ObjectLike<Model> = {}
 
-    constructor(props:RawMap<Model> = {}) {
+    constructor(props:ObjectLike<Model> = {}) {
         this.setMany(props)
     }
 
@@ -24,7 +24,7 @@ export default class Map<Model extends BaseModel> {
         this._map[key] = model
     }
 
-    setMany(props:RawMap<Model>) {
+    setMany(props:ObjectLike<Model>) {
         for (let key in props) {
             this._map[key] = props[key]
         }
@@ -43,16 +43,16 @@ export default class Map<Model extends BaseModel> {
         delete this._map[key]
     }
 
-    has(key:string) {
+    has(key:string):boolean {
         return key in this._map
     }
 
 
-    keys() {
+    keys():string[] {
         return Object.keys(this._map)
     }
 
-    values() {
+    values():Model[] {
         return _.values(this._map)
     }
 
@@ -65,11 +65,11 @@ export default class Map<Model extends BaseModel> {
         return _.pairs(this._map)
     }
 
-    findKey(predicate:(value, key:string) => boolean) {
+    findKey(predicate:(value, key:string) => boolean):string {
         return _.findKey(this._map, predicate)
     }
 
-    findValue(predicate:(value, key:string) => boolean) {
+    findValue(predicate:(value, key:string) => boolean):Model {
         let key = _.findKey(this._map, predicate)
         if (key == undefined) {
             return undefined
@@ -83,6 +83,7 @@ export default class Map<Model extends BaseModel> {
     }
 
     filter(predicate:(value, key:string) => boolean) {
+        // TODO Object.entires感应不出来
         _.pairs(this._map).forEach(([key, value]) => {
             if (!predicate(value, key)) delete this._map[key]
         })

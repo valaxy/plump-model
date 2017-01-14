@@ -1,7 +1,8 @@
 {
   "globalDependencies": {
-    "qunit": "registry:dt/qunit#1.16.0+20160514172809",
-    "require": "registry:dt/require#2.1.20+20160316155526",
+    "chai": "registry:dt/chai#3.4.0+20160926213833",
+    "mocha": "registry:dt/mocha#2.2.5+20161221010438",
+    "node": "registry:dt/node#7.0.0+20170110233017",
     "underscore": "registry:dt/underscore#1.8.3+20161123125004"
   }
 }

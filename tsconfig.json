@@ -1,16 +1,13 @@
 {
     "compilerOptions": {
-        "module":      "commonjs",
-        "target":      "es6",
-        "outDir":      "dest",
-        "declaration": true
+        "module":          "commonjs",
+        "target":          "es6",
+        "outDir":          "dest",
+        "declaration":     true,
+        "inlineSourceMap": true
     },
     "exclude":         [
         "dest",
-        "node_modules",
-        "test/map.ts",
-        "test/collection.ts",
-        "test/model.ts",
-        "test/unit/config.ts"
+        "node_modules"
     ]
 }
