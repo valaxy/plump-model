@@ -185,4 +185,14 @@ describe(Collection.name, function () {
         list.move(1, 0)
         assert.deepEqual(list.toArray(), [m1, m2, m0])
     })
+
+    it('reduce()', function () {
+        let list = new Collection([
+            new Person,
+            new Person,
+            new Person
+        ])
+
+        assert.equal(list.reduce((total) => total + 1, 0), 3)
+    })
 })

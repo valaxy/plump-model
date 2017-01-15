@@ -152,9 +152,7 @@ export default class Collection<Model> {
 
     map(test:(Model, number) => any) { return this._list.map(test) }
 
-    reduce(test) { return this._list.map(test)}
-
-
+    reduce(test, total) { return this._list.reduce(test, total)}
 
     some(test:(Model, number) => boolean) { this._list.some(test) }
 
