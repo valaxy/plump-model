@@ -195,4 +195,20 @@ describe(Collection.name, function () {
 
         assert.equal(list.reduce((total) => total + 1, 0), 3)
     })
+
+    it('filter()', function () {
+        let list = new Collection<Person>([
+            new Person({id: 1}),
+            new Person({id: 2}),
+            new Person({id: 3})
+        ])
+
+        let ary = list.filter(p => p.id == 2)
+
+        assert.equal(ary.length, 1)
+        assert.equal(ary[0].id, 2)
+
+        assert.equal(list.length, 1)
+        assert.equal(list.at(0).id, 2)
+    })
 })

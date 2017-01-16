@@ -124,7 +124,10 @@ export default class Collection<Model> {
 
     every(test:Tester) { return this._list.every(test) }
 
-    filter(test:Tester) { return this._list.filter(test) }
+    filter(test:(Model, number) => boolean):Model[] {
+        this._list = this._list.filter(test)
+        return this._list
+    }
 
     find(test:Tester) { return this._list.find(test) }
 
