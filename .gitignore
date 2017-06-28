@@ -2,3 +2,4 @@ node_modules/
 dest/
 build/typings
 .idea/
+npm-debug.log

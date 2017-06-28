@@ -2,13 +2,13 @@ import _ = require('underscore')
 import BaseModel from './model'
 
 export interface ObjectLike<Model extends BaseModel> {
-    [key: string]:Model
+    [key: string]: Model
 }
 
 export default class Map<Model extends BaseModel> {
-    private _map:ObjectLike<Model> = {}
+    private _map: ObjectLike<Model> = {}
 
-    constructor(props:ObjectLike<Model> = {}) {
+    constructor(props: ObjectLike<Model> = {}) {
         this.setMany(props)
     }
 
@@ -16,21 +16,21 @@ export default class Map<Model extends BaseModel> {
         return this.keys().length
     }
 
-    get(key:string) {
+    get(key: string) {
         return this._map[key]
     }
 
-    set(key:string, model:Model) {
+    set(key: string, model: Model) {
         this._map[key] = model
     }
 
-    setMany(props:ObjectLike<Model>) {
+    setMany(props: ObjectLike<Model>) {
         for (let key in props) {
             this._map[key] = props[key]
         }
     }
 
-    merge(key:string, model:Model) {
+    merge(key: string, model: Model) {
         let oldModel = this.get(key)
         if (oldModel) {
             oldModel.merge(model)
@@ -39,25 +39,25 @@ export default class Map<Model extends BaseModel> {
         }
     }
 
-    remove(key:string) {
+    remove(key: string) {
         delete this._map[key]
     }
 
-    has(key:string):boolean {
+    has(key: string): boolean {
         return key in this._map
     }
 
 
-    keys():string[] {
+    keys(): string[] {
         return Object.keys(this._map)
     }
 
-    values():Model[] {
+    values(): Model[] {
         return _.values(this._map)
     }
 
 
-    mapObject(iteratee:(value, key:string) => any) {
+    mapObject(iteratee: (value, key: string) => any) {
         return _.mapObject(this._map, iteratee)
     }
 
@@ -65,11 +65,11 @@ export default class Map<Model extends BaseModel> {
         return _.pairs(this._map)
     }
 
-    findKey(predicate:(value, key:string) => boolean):string {
+    findKey(predicate: (value, key: string) => boolean): string {
         return _.findKey(this._map, predicate)
     }
 
-    findValue(predicate:(value, key:string) => boolean):Model {
+    findValue(predicate: (value, key: string) => boolean): Model {
         let key = _.findKey(this._map, predicate)
         if (key == undefined) {
             return undefined
@@ -82,12 +82,18 @@ export default class Map<Model extends BaseModel> {
         return new Map(this._map)
     }
 
-    filter(predicate:(value, key:string) => boolean) {
+    filter(predicate: (value, key: string) => boolean) {
         // TODO Object.entires感应不出来
         _.pairs(this._map).forEach(([key, value]) => {
             if (!predicate(value, key)) delete this._map[key]
         })
         return this
+    }
+
+    forEach(iteratee: (value, key: string) => any) {
+        this.pairs().forEach(([key, value]) => {
+            iteratee(value, key)
+        })
     }
 
     toJSON() {

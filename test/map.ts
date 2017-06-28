@@ -190,4 +190,24 @@ describe(Map.name, function () {
             b: m4
         })
     })
+
+
+    it('forEach', function() {
+        let m = new Map<TestModel>({
+            a: new TestModel({value: 1}),
+            b: new TestModel({value: 2}),
+            c: new TestModel({value: 3})
+        })
+
+        let ret = []
+        m.forEach((m, key) => {
+            ret.push([m.value, key])
+        })
+
+        assert.deepEqual(ret, [
+            [1, 'a'],
+            [2, 'b'],
+            [3, 'c']
+        ])
+    })
 })
