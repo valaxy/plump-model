@@ -3,19 +3,23 @@
   "description": "model framework",
   "version": "0.1.0",
   "scripts": {
-    "postinstall": "cd build && typings install && tsc",
     "watch": "tsc --watch",
     "test": "mocha dest/test/index.js"
   },
-  "main": "./lib/index.js",
+  "main": "./dest/lib/index.js",
   "author": "valaxy",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/lodash": "^4.14.135",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.10",
     "chai": "^4.0.2",
-    "mocha": "^3.2.0",
-    "source-map-support": "^0.4.8"
+    "mocha": "^6.1.4",
+    "source-map-support": "^0.5.12",
+    "typescript": "^3.5.2"
   },
   "dependencies": {
-    "underscore": "^1.8.3"
+    "lodash": "^4.17.11"
   }
 }

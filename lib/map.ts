@@ -1,4 +1,4 @@
-import _ = require('underscore')
+import _ = require('lodash')
 import BaseModel from './model'
 
 export interface ObjectLike<Model extends BaseModel> {
@@ -58,11 +58,11 @@ export default class Map<Model extends BaseModel> {
 
 
     mapObject(iteratee: (value, key: string) => any) {
-        return _.mapObject(this._map, iteratee)
+        return _.mapValues(this._map, iteratee)
     }
 
     pairs() {
-        return _.pairs(this._map)
+        return _.toPairs(this._map)
     }
 
     findKey(predicate: (value, key: string) => boolean): string {
@@ -84,7 +84,7 @@ export default class Map<Model extends BaseModel> {
 
     filter(predicate: (value, key: string) => boolean) {
         // TODO Object.entires感应不出来
-        _.pairs(this._map).forEach(([key, value]) => {
+        _.toPairs(this._map).forEach(([key, value]) => {
             if (!predicate(value, key)) delete this._map[key]
         })
         return this
