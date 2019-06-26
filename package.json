@@ -1,7 +1,7 @@
 {
   "name": "plump-model",
   "description": "model framework",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "watch": "tsc --watch",
     "test": "mocha dest/test/index.js"
