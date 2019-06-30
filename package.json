@@ -1,12 +1,13 @@
 {
   "name": "plump-model",
   "description": "model framework",
-  "version": "0.1.1",
+  "version": "0.1.2-ts",
   "scripts": {
     "watch": "tsc --watch",
-    "test": "mocha dest/test/index.js"
+    "test": "mocha dest/test/index.js",
+    "ts-test": "mocha --require ts-node/register --watch-extensions ts,tsx test/index.ts"
   },
-  "main": "./dest/lib/index.js",
+  "main": "./lib/index.ts",
   "author": "valaxy",
   "license": "MIT",
   "devDependencies": {
@@ -17,6 +18,7 @@
     "chai": "^4.0.2",
     "mocha": "^6.1.4",
     "source-map-support": "^0.5.12",
+    "ts-node": "^8.3.0",
     "typescript": "^3.5.2"
   },
   "dependencies": {
